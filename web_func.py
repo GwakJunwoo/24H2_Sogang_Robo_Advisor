@@ -14,8 +14,21 @@ warnings.filterwarnings('ignore')
 def rich_func(invester_rank: int, assets: list, investor_goal: int = 4):
     start = time.time()
 
-    # 호윤부분
+    file_path = 'invest_universe.csv'
+    # 종목코드-종목설명 딕셔너리 생성
 
+    universe = pd.read_csv(file_path, encoding='cp949')
+
+    stock_dict = {}
+    for _, row in universe.iterrows():
+        code = str(row['종목 코드'])
+        if len(code) < 6:
+            code = '0' * (6 - len(code)) + code
+        stock_dict[row['종목 설명']] = code
+
+    universe['종목 코드'] = stock_dict.values()
+    # 호윤부분
+    tree = build_investment_tree(assets, invester_rank, universe)
     # 호윤 Tree 반환 완료
 
     assets = tree.get_all_nodes_name()
@@ -69,3 +82,6 @@ def rich_func(invester_rank: int, assets: list, investor_goal: int = 4):
 
     # TODO json 뱉을 때, 누적수익, MDD 시계열 데이터로 JSON에 같이 
     eval_metrix = backtest.evaluation()
+    return eval_metrix
+
+rich_func(1, ['069500','139260','161510','273130','439870','251340','114260'], 2)

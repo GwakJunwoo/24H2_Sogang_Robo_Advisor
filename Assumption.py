@@ -13,6 +13,7 @@ class AssetAssumption:
     def calculate_expected_return(self, price_data: pd.DataFrame) -> pd.Series:
         """Calculates the expected return from weekly price data."""
         # Resample to weekly data and calculate weekly returns
+
         weekly_prices = price_data.resample('W').last()
         weekly_returns = weekly_prices.pct_change().astype(np.float32)
 
