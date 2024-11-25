@@ -1,3 +1,4 @@
+![Sogang Robo Logo](sogang-robo-logo.svg)
 
 # Roborich
 

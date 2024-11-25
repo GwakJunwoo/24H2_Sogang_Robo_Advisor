@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200">
+  <!-- 배경 -->
+  <rect width="400" height="200" fill="#ffffff"/>
+  
+  <!-- 로봇 머리 -->
+  <rect x="130" y="40" width="140" height="100" rx="20" fill="#1e3799"/>
+  
+  <!-- 로봇 눈 -->
+  <circle cx="170" cy="80" r="15" fill="#ffffff"/>
+  <circle cx="230" cy="80" r="15" fill="#ffffff"/>
+  <circle cx="170" cy="80" r="7" fill="#4a69bd"/>
+  <circle cx="230" cy="80" r="7" fill="#4a69bd"/>
+  
+  <!-- 로봇 안테나 -->
+  <path d="M200 40 L200 20 L210 10" stroke="#1e3799" stroke-width="4" fill="none"/>
+  <circle cx="213" cy="8" r="3" fill="#4a69bd"/>
+  
+  <!-- 증가하는 차트 라인 -->
+  <path d="M140 110 L160 100 L180 105 L200 90 L220 85" 
+        stroke="#0be881" 
+        stroke-width="3" 
+        fill="none"/>
+  
+  <!-- 텍스트 -->
+  <text x="200" y="170" 
+        font-family="Arial" 
+        font-size="24" 
+        font-weight="bold" 
+        text-anchor="middle" 
+        fill="#1e3799">SOGANG ROBO</text>
+  <text x="200" y="190" 
+        font-family="Arial" 
+        font-size="16" 
+        text-anchor="middle" 
+        fill="#4a69bd">ADVISOR</text>
+</svg>
