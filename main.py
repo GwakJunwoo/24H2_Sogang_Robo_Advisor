@@ -134,7 +134,7 @@ def main(codes, risk_level: int = 4, investor_goal:int = 1):
     pipe = Pipeline(steps, tree, assumption)
     
     today = datetime.today().strftime("%Y-%m-%d")
-    prev_date = (datetime.today() - timedelta(days=252 * 1)).strftime("%Y-%m-%d")
+    prev_date = (datetime.today() - timedelta(days=252 * 5)).strftime("%Y-%m-%d")
     rebalance_dates = pd.date_range(prev_date, today, freq='M')
     trading_days = price_data.index
 
