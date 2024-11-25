@@ -31,6 +31,6 @@
    pip install numpy pandas matplotlib cvxpy tqdm
 
 2. **Usage Example**:
-   Run the following to install required libraries:
+   Run the following Example:
    ```bash
    main(codes=['069500','139260','161510','273130','439870','251340','114260'], risk_level=5, investor_goal=4)
