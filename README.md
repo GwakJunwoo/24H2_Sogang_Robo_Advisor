@@ -30,7 +30,6 @@
    ```bash
    pip install numpy pandas matplotlib cvxpy
 
-
 ## Features
 
 ### 1. **Asset Assumption Modeling**
