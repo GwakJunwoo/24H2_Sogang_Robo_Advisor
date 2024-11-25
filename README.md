@@ -1,4 +1,4 @@
-![Sogang Robo Logo](sogang-robo-logo.svg)
+![Sogang Robo Logo](sogang-robo-logo-professional.svg)
 
 # Roborich
 
@@ -23,6 +23,15 @@
   - **Sharpe Ratio**
 - Visualizes results for better decision-making.
 
+## Investment Types
+
+| Type               | Code |
+|--------------------|------|
+| 안정형              | 1    |
+| 안정추구형          | 2    |
+| 위험중립형          | 3    |
+| 적극투자형          | 4    |
+| 공격투자형          | 5    |
 
 ## Installation and Setup
 

@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 300">
+  <!-- 배경 -->
+  <rect width="500" height="300" fill="#ffffff"/>
+  
+  <!-- 방패 모양 (신뢰성) -->
+  <path d="M250 30 L330 70 L330 150 L250 230 L170 150 L170 70 Z" 
+        fill="#1e3799" 
+        stroke="#0c2461" 
+        stroke-width="3"/>
+  
+  <!-- 차트 라인들 (전문성) -->
+  <path d="M190 140 L220 120 L250 130 L280 100 L310 90" 
+        stroke="#ffffff" 
+        stroke-width="3" 
+        fill="none"/>
+  <path d="M190 150 L220 130 L250 140 L280 110 L310 100" 
+        stroke="#4a69bd" 
+        stroke-width="2" 
+        fill="none"/>
+        
+  <!-- 디지털 회로 패턴 (기술) -->
+  <path d="M180 80 L190 80 L190 90 L200 90" 
+        stroke="#ffffff" 
+        stroke-width="2" 
+        fill="none"/>
+  <path d="M300 80 L310 80 L310 90 L320 90" 
+        stroke="#ffffff" 
+        stroke-width="2" 
+        fill="none"/>
+        
+  <!-- 서강대 심볼릭 마크 -->
+  <circle cx="250" cy="110" r="25" fill="#ffffff"/>
+  <circle cx="250" cy="110" r="20" fill="#1e3799"/>
+  <path d="M235 110 L265 110 M250 95 L250 125" 
+        stroke="#ffffff" 
+        stroke-width="3"/>
+
+  <!-- 텍스트 -->
+  <text x="250" y="270" 
+        font-family="Arial" 
+        font-size="28" 
+        font-weight="bold" 
+        text-anchor="middle" 
+        fill="#1e3799">SOGANG ROBO ADVISOR</text>
+  
+  <!-- 설립연도 (신뢰성) -->
+  <text x="250" y="290" 
+        font-family="Arial" 
+        font-size="14" 
+        text-anchor="middle" 
+        fill="#4a69bd">EST. 2024</text>
+</svg>
