@@ -23,7 +23,7 @@
   - **Sharpe Ratio**
 - Visualizes results for better decision-making.
 
-## Investment Types
+## Investment Types(risk_level)
 
 | Type               | Code |
 |--------------------|------|
@@ -32,6 +32,15 @@
 | 위험중립형          | 3    |
 | 적극투자형          | 4    |
 | 공격투자형          | 5    |
+
+## Investment Goal
+
+| Type               | Code |
+|--------------------|------|
+| 목돈 마련              | 1    |
+| 결혼자금 준비          | 2    |
+| 노후자금 준비          | 3    |
+| 장기수익 창출          | 4    |
 
 ## Installation and Setup
 
