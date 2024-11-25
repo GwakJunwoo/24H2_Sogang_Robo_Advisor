@@ -44,11 +44,8 @@ def build_investment_tree(codes: list, risk_level: int, df: pd.DataFrame) -> Tre
     for _, row in df.iterrows():
         row_code_dict[row.iloc[0]] = str(row['종목 코드'])
     
-    #print(row_code_dict)
-    # 먼저 각 코드의 level 정보 수집
     code_info = {}
     for code in codes:
-        print(code)
         row = df[df['종목 코드'].astype(str) == str(code)].iloc[0]
         code_info[code] = {
             'level': row['level'] if not pd.isna(row['level']) else 0,
@@ -82,11 +79,9 @@ def build_investment_tree(codes: list, risk_level: int, df: pd.DataFrame) -> Tre
     tree.draw()
     return tree
 
-def main(risk_level: int = 4, investor_goal:int = 1):
+def main(codes, risk_level: int = 4, investor_goal:int = 1):
 
     file_path = 'invest_universe.csv'
-    # 종목코드-종목설명 딕셔너리 생성
-
     universe = pd.read_csv(file_path, encoding='cp949')
 
     stock_dict = {}
@@ -97,11 +92,6 @@ def main(risk_level: int = 4, investor_goal:int = 1):
         stock_dict[row['종목 설명']] = code
 
     universe['종목 코드'] = stock_dict.values()
-    # price_data = pd.read_csv(file_path, index_col=0, parse_dates=True)
-
-    codes = ['069500','139260','161510','273130','439870','251340','114260']
-
-    #TODO 호윤 화이팅 해야하는 부분
     tree = build_investment_tree(codes, risk_level, universe)
 
     assets = tree.get_all_nodes_name()
@@ -152,18 +142,13 @@ def main(risk_level: int = 4, investor_goal:int = 1):
     backtest.run_backtest()
 
     allocation = backtest.allocations[-1][-1]
-
-    # TODO json 뱉을 때, 누적수익, MDD 시계열 데이터로 JSON에 같이 
     eval_metrix = backtest.evaluation(allocation)
     print(eval_metrix)
+    return eval_metrix
 
-    # 성과 계산 및 시각화
-    # cumulative_return, mdd, sharpe_ratio = backtest.calculate_performance()
-    # print(f"Cumulative Return: {cumulative_return:.2%}")
-    # print(f"Maximum Drawdown (MDD): {mdd:.2%}")
-    # print(f"Sharpe Ratio: {sharpe_ratio:.2f}")
-
-    # 성과 시각화
-    # backtest.visualize_performance()
-
-main()
+"""
+codes: 투자할 종목 리스트
+risk_level: 투자자의 위험등급 (1~5, 5: 고위험 투자자)
+investor_goal: 투자자 목표(1: 목돈마련, 2: 결혼자금 준비, 3: 노후자금 준비, 4: 장기수익 창출)
+"""
+main(codes=['069500','139260','161510','273130','439870','251340','114260'], risk_level=5, investor_goal=4)

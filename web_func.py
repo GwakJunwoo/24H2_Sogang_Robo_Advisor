@@ -81,7 +81,7 @@ def rich_func(invester_rank: int, assets: list, investor_goal: int = 4):
     allocation = backtest.allocations[-1][-1]
 
     # TODO json 뱉을 때, 누적수익, MDD 시계열 데이터로 JSON에 같이 
-    eval_metrix = backtest.evaluation()
+    eval_metrix = backtest.evaluation(allocation)
     return eval_metrix
 
-rich_func(1, ['069500','139260','161510','273130','439870','251340','114260'], 2)
+rich_func(1, ['069500','139260','161510','273130','439870','251340','114260'], 3)
