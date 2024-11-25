@@ -1,6 +1,4 @@
-# Creating a more concise and organized README.md file for the project "Roborich"
 
-readme_content_organized = """
 # Roborich
 
 **Roborich** is a Python-based portfolio optimization and backtesting engine that supports asset allocation strategies with flexible handling of assets having inconsistent time periods or missing data.
@@ -36,12 +34,6 @@ readme_content_organized = """
    ```bash
    pip install numpy pandas matplotlib cvxpy
 
-
-# Roborich
-
-**Roborich** is a Python-based portfolio optimization and backtesting engine that supports asset allocation strategies with flexible handling of assets having inconsistent time periods or missing data.
-
----
 
 ## Features
 
