@@ -3,8 +3,6 @@
 
 **Roborich** is a Python-based portfolio optimization and backtesting engine that supports asset allocation strategies with flexible handling of assets having inconsistent time periods or missing data.
 
----
-
 ## Features
 
 ### 1. **Asset Assumption Modeling**
@@ -24,8 +22,6 @@
   - **Sharpe Ratio**
 - Visualizes results for better decision-making.
 
-
----
 
 ## Installation and Setup
 
