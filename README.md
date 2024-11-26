@@ -70,27 +70,32 @@ The `Backtest` class simulates portfolio performance over a specified time frame
   - **VaR (Value at Risk)**: Expected loss under adverse market conditions.
   - **CVaR (Conditional VaR)**: Expected loss beyond the VaR threshold.
 
+## Investment Types and Goals
 
-## Investment Types (risk_level)
+| **Risk Level**             | **Code** | **Investment Goal**           | **Code** |
+|----------------------------|----------|--------------------------------|----------|
+| Conservative               | 1        | Marriage Fund Planning         | 1        |
+| Risk-Averse                | 2        | Retirement Fund Planning       | 2        |
+| Risk-Neutral               | 3        | Long-Term Wealth Growth        | 3        |
+| Aggressive                 | 4        | Saving for a Large Goal        | 4        |
+| Highly Aggressive          | 5        |                                |          |
 
-| Type               | Code |
-|--------------------|------|
-| Conservative              | 1    |
-| Risk-Averse          | 2    |
-| Risk-Neutral          | 3    |
-| Aggressive          | 4    |
-| Highly Aggressive          | 5    |
+## Goal-Specific Strategies
 
-## Investment Goal
+| Investment Goal              | Code | Characteristics                                              | Methodology               | Selection Rationale                                                |
+|-------------------------------|------|-------------------------------------------------------------|---------------------------|----------------------------------------------------------------------|
+| **Marriage Fund Planning**    | 1    | Balances stability and returns for medium-term asset accumulation. | DRA → MVO → MVO           | Employs stable yet profitable allocation strategies for mid-term wealth accumulation. |
+| **Retirement Fund Planning**  | 2    | Aims for long-term stability with pension-like returns.         | RPO → GBI → MVO           | Ensures stable risk management and sustainable returns for retirement planning. |
+| **Long-Term Wealth Growth**   | 3    | Targets high returns over the long term while managing volatility. | RPO → MVO → MVO           | Maximizes risk-adjusted returns to achieve long-term asset growth.  |
+| **Saving for a Large Goal**   | 4    | Seeks stable returns and risk management over the short to medium term. | DRA → GBI → MVO           | Focuses on short- to medium-term growth and stable asset management strategies to achieve target returns. |
 
-| Type               | Code |
-|--------------------|------|
-| Marriage Fund Planning          | 1    |
-| Retirement Fund Planning          | 2    |
-| Long-Term Wealth Growth          | 3    |
-| Saving for a Large Goal              | 4    |
+### Abbreviations
+- **RPO**: Risk Parity Optimization  
+- **MVO**: Mean-Variance Optimization  
+- **DRA**: Dynamic Risk Allocation  
+- **GBI**: Goal-Based Investing
 
-## Installation and Setup
+## Installation and Usage
 
 1. **Install Dependencies**:
    Run the following to install required libraries:
