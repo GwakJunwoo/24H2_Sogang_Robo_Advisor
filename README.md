@@ -21,6 +21,10 @@ This integrated approach simplifies portfolio management tasks, providing both f
   - Multiple optimization techniques can be applied at different levels of the tree.
   - Supports integration of custom optimizers for specific strategies.
 
+- For more detailed information, refer to the following resource:
+  - [KB Securities Research Report](https://rdata.kbsec.com/pdf_data/20220103100504197K.pdf)
+
+
 ### 2. **Assumption Modeling**
 The `AssetAssumption` class calculates:
 - **Expected Returns**:
@@ -98,3 +102,7 @@ The `Backtest` class simulates portfolio performance over a specified time frame
    Run the following Example:
    ```bash
    main(codes=['069500','139260','161510','273130','439870','251340','114260'], risk_level=5, investor_goal=4)
+
+## License
+
+This project is licensed under the **MIT License**. For more details, please refer to the LICENSE file.
