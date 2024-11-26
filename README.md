@@ -1,27 +1,81 @@
 ![Sogang Robo Logo](sogang-robo-logo-professional.svg)
 
-# Roborich
+**Roborich** is a Python-based portfolio optimization and backtesting engine designed to support hierarchical asset allocation strategies and various optimization techniques. The tool provides flexibility in integrating multiple optimizers, calculating key performance metrics, and visualizing portfolio evaluations.
 
-**Roborich** is a Python-based portfolio optimization and backtesting engine that supports asset allocation strategies with flexible handling of assets having inconsistent time periods or missing data.
+By combining modules for **assumption modeling**, **optimization**, and **backtesting**, Roborich enables seamless end-to-end workflows for portfolio construction and evaluation:
+- Use the `AssetAssumption` module to calculate expected returns and covariance matrices from historical price data.
+- Define a hierarchical asset tree with the `Tree` class and apply modular optimizers to different levels of the hierarchy.
+- Execute dynamic rebalancing and evaluate portfolio performance over time with the `Backtest` engine.
+- Compare strategy results with benchmarks and visualize outcomes for deeper insights.
+
+This integrated approach simplifies portfolio management tasks, providing both flexibility and robust analytics in a single framework.
+
+---
 
 ## Features
 
-### 1. **Asset Assumption Modeling**
-- Calculates expected returns and covariance matrices efficiently, even with missing data.
-- Resamples data weekly and handles NaN values during calculations.
+### 1. **Building Block Approach**
+- **Tree-Based Hierarchical Optimization**:
+  - Assets are structured hierarchically using parent-child relationships.
+  - Each level of the hierarchy can apply a different optimization method.
+- **Modular Optimizers**:
+  - Multiple optimization techniques can be applied at different levels of the tree.
+  - Supports integration of custom optimizers for specific strategies.
 
-### 2. **Optimization**
-- Implements Mean-Variance Optimization with risk aversion tuning.
-- Ensures stability by correcting non-positive semi-definite covariance matrices.
-- Handles invalid data gracefully during optimization.
+### 2. **Assumption Modeling**
+The `AssetAssumption` class calculates:
+- **Expected Returns**:
+  - Simple historical expected returns based on a rolling window.
+  - Expected returns using the **CAPM (Capital Asset Pricing Model)**.
+- **Covariance Matrix**:
+  - Asset return covariances calculated from historical data.
+  - Supports rolling window calculations to focus on recent data trends.
 
-### 3. **Backtesting**
-- Performs robust portfolio backtesting with periodic rebalancing.
-- Measures key performance metrics like:
-  - **Cumulative Returns**
-  - **Maximum Drawdown (MDD)**
-  - **Sharpe Ratio**
-- Visualizes results for better decision-making.
+### 3. **Supported Optimizers**
+1. **Mean-Variance Optimizer**:
+   - Balances risk and return using covariance matrices.
+   - Requires expected returns and covariance matrix as inputs.
+2. **Equal Weight Optimizer**:
+   - Assigns equal weights to all assets within the group.
+3. **Dynamic Risk Optimizer**:
+   - Allocates weights dynamically based on risk tolerance and investment horizon.
+4. **Risk Parity Optimizer**:
+   - Balances risk contribution equally among assets.
+5. **Goal-Based Optimizer**:
+   - Focuses on achieving specific investment goals using Monte Carlo simulations.
+
+### 4. **Backtesting**
+The `Backtest` class simulates portfolio performance over a specified time frame. It integrates with the `Pipeline` class to dynamically rebalance portfolios and evaluate performance metrics.
+
+- **Dynamic Rebalancing**:
+  - Rebalances the portfolio at specified dates based on optimization outputs from the `Pipeline`.
+  - Handles missing or incomplete data by forward-filling values to ensure continuity in calculations.
+  - Tracks portfolio value changes over time, allowing for detailed performance evaluation.
+
+### 5. **Performance Metrics Evaluation**
+- Calculates comprehensive investment metrics, including:
+  - **Cumulative Return**: Total return over the evaluation period.
+  - **CAGR** (Compound Annual Growth Rate): Annualized portfolio growth rate.
+  - **Sharpe Ratio**: Risk-adjusted return measurement.
+  - **Sortino Ratio**: Focused risk-adjusted return using downside risk.
+  - **Max Drawdown**: Largest peak-to-trough decline during the evaluation period.
+  - **Annualized Volatility**: Yearly volatility of returns.
+  - **Calmar Ratio**: Return-to-risk ratio using maximum drawdown.
+  - **Skewness**: Asymmetry of return distribution.
+  - **Kurtosis**: "Fat-tailedness" of the return distribution.
+  - **Expected Daily/Monthly/Yearly Returns**: Anticipated return values over different time horizons.
+  - **Kelly Criterion**: Optimal betting fraction for reinvestment.
+  - **VaR (Value at Risk)**: Expected loss under adverse market conditions.
+  - **CVaR (Conditional VaR)**: Expected loss beyond the VaR threshold.
+
+---
+
+## Optimizer Workflow (Pipeline)
+
+The optimization process in **Roborich** follows a hierarchical and modular design:
+1. **Input Tree**: Define a `Tree` structure to represent assets and their parent-child relationships.
+2. **Optimization Steps**: Use the `Pipeline` class to define sequential optimizations at different levels of the tree.
+3. **Execution**: Run the `Pipeline` on price data to generate optimized allocations.
 
 ## Investment Types(risk_level)
 
