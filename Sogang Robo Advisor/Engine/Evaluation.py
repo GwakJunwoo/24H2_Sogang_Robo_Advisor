@@ -1,20 +1,34 @@
 import pandas as pd
 import numpy as np 
 from scipy.stats import norm
-import seaborn as sns
 import matplotlib.pyplot as plt
 from scipy.stats import norm, kurtosis, skew
-from matplotlib import rc
-import re
 import json
 import base64
 from io import BytesIO
 
-#rc('font', family='AppleGothic')
 plt.rcParams['axes.unicode_minus'] = False
 
 class visualization:
-    
+    """
+    The visualization class provides methods for analyzing and visualizing financial data.
+    It focuses on creating cumulative return plots, comparing performance metrics between 
+    strategy and benchmark, and exporting results in JSON format.
+
+    Attributes:
+        _data (pd.DataFrame): The input data containing 'Model' and 'Benchmark' columns.
+
+    Methods:
+        cumlativeReturns(json_filename="cumulative_returns.json"):
+            Computes and visualizes cumulative returns for both strategy and benchmark, 
+            and exports the results as JSON.
+        
+        compareFrame():
+            Computes and returns a comprehensive set of performance metrics, including:
+            cumulative returns, CAGR, Sharpe ratio, Sortino ratio, maximum drawdown, 
+            volatility, and others for strategy and benchmark.
+    """
+
     def __init__(self,dataframe):
         self._data = dataframe
     
@@ -35,11 +49,10 @@ class visualization:
         plt.xlabel('Year', fontsize=12)
         plt.ylabel('Cumulative Returns (%)', fontsize=12)
 
-        plt.axhline(y=0, color='black', linestyle='--', linewidth=0.8)  # 기준선(0%)
+        plt.axhline(y=0, color='black', linestyle='--', linewidth=0.8)
         plt.legend(fontsize=12)
         plt.grid(True, linestyle='--', alpha=0.6)
         
-        # 그래프를 이미지로 저장 (Base64 인코딩)
         buffer = BytesIO()
         plt.savefig(buffer, format='png')
         buffer.seek(0)
@@ -47,11 +60,10 @@ class visualization:
         buffer.close()
         plt.close()
 
-        # JSON 데이터 생성
         json_data = {
-            "dates": dates.strftime("%Y-%m-%d").tolist(),  # 날짜 리스트
-            "strategy_returns": strategy_returns,  # 전략 수익률 리스트
-            "benchmark_returns": benchmark_returns,  # 벤치마크 수익률 리스트
+            "dates": dates.strftime("%Y-%m-%d").tolist(),
+            "strategy_returns": strategy_returns,
+            "benchmark_returns": benchmark_returns,
             #"graph_image": graph_base64  # Base64로 인코딩된 그래프 이미지
         }
         """
@@ -68,14 +80,11 @@ class visualization:
         strategy_returns = df['Model']
         benchmark_returns = df['Benchmark']
         
-       
-        #누적수익률
         def cumulative_return(returns):
             if returns.empty or returns.isnull().all():
                 return np.nan
             return (1 + returns).prod() - 1
         
-        #cagr
         def cagr(returns, periods_per_year=252):
             total_return = (1 + returns).prod()
             n_years = len(returns) / periods_per_year
@@ -83,14 +92,12 @@ class visualization:
                 return np.nan
             return total_return**(1 / n_years) - 1
         
-        # Sharpe Ratio 계산
         def sharpe_ratio(returns, risk_free_rate=0.0, periods_per_year=252):
             excess_returns = returns - risk_free_rate / periods_per_year
             if returns.std() == 0:
                 return np.nan
             return np.sqrt(periods_per_year) * excess_returns.mean() / excess_returns.std()
         
-        # Sortino Ratio 계산
         def sortino_ratio(returns, risk_free_rate=0.0, periods_per_year=252):
             excess_returns = returns - risk_free_rate / periods_per_year
             downside_std = returns[returns < 0].std()
@@ -98,7 +105,6 @@ class visualization:
                 return np.nan
             return np.sqrt(periods_per_year) * excess_returns.mean() / downside_std
         
-        #최대 낙폭(Max Drawdown) 계산
         def max_drawdown(returns):
             cumulative = (1 + returns).cumprod()
             drawdown = cumulative / cumulative.cummax() - 1
@@ -106,49 +112,41 @@ class visualization:
                 return np.nan
             return drawdown.min()
         
-        # 변동성(Volatility) 계산
         def annual_volatility(returns, periods_per_year=252):
             if returns.std() == 0:
                 return 0
             return returns.std() * np.sqrt(periods_per_year)
                
-        # Calmar Ratio 계산
         def calmar_ratio(returns, periods_per_year=252):
             max_dd = max_drawdown(returns)
             if max_dd == 0:
                 return np.nan
             return cagr(returns, periods_per_year) / abs(max_drawdown(returns))
         
-        # Skewness 계산
         def skewness(returns):
             if len(returns) < 3:
                 return np.nan
             return skew(returns)
         
-        # Kurtosis 계산
         def kurtosis_calc(returns):
             if len(returns) < 3:
                 return np.nan
             return kurtosis(returns)
         
-        # Expected Daily
         def calculate_expected_returns_d(returns):
             expected_daily = np.mean(returns) * 100
             return expected_daily
                 
-        # Expected Monthly Returns
         def calculate_expected_returns_m(returns):
-            # 데이터 검증
             returns = returns.replace([np.inf, -np.inf], np.nan).dropna()
-            returns = np.clip(returns, -1, 1)  # -100% ~ 100%로 제한
+            returns = np.clip(returns, -1, 1)
             
             try:
                 mean_return = np.mean(returns)
                 if mean_return < -1 or mean_return > 1:
                     raise ValueError(f"Mean return out of range: {mean_return}")
                 
-                # 월간 기대수익률 계산
-                expected_monthly = ((1 + mean_return)**21 - 1) * 100  # 21 거래일 기준
+                expected_monthly = ((1 + mean_return)**21 - 1) * 100
                 return expected_monthly
             except OverflowError as e:
                 print("OverflowError in monthly return calculation:", e)
@@ -157,19 +155,16 @@ class visualization:
                 print("ValueError in monthly return calculation:", e)
                 return None
 
-        # Expected Yearly Returns
         def calculate_expected_returns_y(returns):
-            # 데이터 검증
             returns = returns.replace([np.inf, -np.inf], np.nan).dropna()
-            returns = np.clip(returns, -1, 1)  # -100% ~ 100%로 제한
+            returns = np.clip(returns, -1, 1)
             
             try:
                 mean_return = np.mean(returns)
                 if mean_return < -1 or mean_return > 1:
                     raise ValueError(f"Mean return out of range: {mean_return}")
                 
-                # 연간 기대수익률 계산
-                expected_yearly = ((1 + mean_return)**252 - 1) * 100  # 252 거래일 기준
+                expected_yearly = ((1 + mean_return)**252 - 1) * 100
                 return expected_yearly
             except OverflowError as e:
                 print("OverflowError in yearly return calculation:", e)
@@ -178,8 +173,6 @@ class visualization:
                 print("ValueError in yearly return calculation:", e)
                 return None
 
-        
-        # Kelly Criterion
         def calculate_kelly_criterion(returns):
             mean_return = np.mean(returns)
             variance = np.var(returns)
@@ -188,20 +181,17 @@ class visualization:
             kelly_criterion = (mean_return / variance) * 100
             return kelly_criterion
         
-        # Risk of Ruin
         def calculate_risk_of_ruin():
-            return 0.0  # Kelly 기준을 따르면 0%로 가정
+            return 0.0 
     
-        # Daily VaR (Value-at-Risk)
         def calculate_var(returns, confidence_level=0.95):
-            z_score = norm.ppf(1 - confidence_level)  # 신뢰구간에 해당하는 Z-Score
+            z_score = norm.ppf(1 - confidence_level)
             daily_volatility = np.std(returns)
             if daily_volatility == 0:
                 return np.nan
-            daily_var = z_score * daily_volatility * 100  # VaR (하루 손실율)  
+            daily_var = z_score * daily_volatility * 100
             return daily_var
         
-        # CVaR (Conditional Value-at-Risk)
         def calculate_cvar(returns, confidence_level=0.95):
             z_score = norm.ppf(1 - confidence_level)
             daily_volatility = np.std(returns)
@@ -283,15 +273,26 @@ class visualization:
         return json.dumps(metrics, indent=4)
 
 class indexVisualization:
+    """
+    The indexVisualization class focuses on visualizing portfolio allocations. It provides 
+    methods for processing and visualizing stock allocation percentages in a structured format.
+
+    Attributes:
+        _data (dict): A dictionary containing stock symbols as keys and their respective 
+                      allocation percentages as values.
+
+    Methods:
+        Visualization():
+            Processes the input allocation data, sorts it, and returns a JSON representation.
+    """
     
     def __init__(self, datadict):
-        self._data = datadict  # 초기 데이터 (주식 비중 정보)
+        self._data = datadict
 
     def Visualization(self):
         
-        data = self._data  # 입력 데이터
+        data = self._data
         
-        # 데이터를 처리하여 종목과 비중의 딕셔너리 생성
         def indexMetrics(data):
             stocks_metrics = {}
             for stock, per in data.items():
@@ -301,9 +302,8 @@ class indexVisualization:
                     # print(f"Invalid format in data: {data[i]}")
                     continue
             
-            # 값(비율) 기준 내림차순 정렬
             stocks_metrics_sorted = dict(list(sorted(stocks_metrics.items(), key=lambda item: item[1], reverse=True)))
-            return stocks_metrics_sorted  # 정렬된 딕셔너리 반환
+            return stocks_metrics_sorted
         """
         # 개별 종목 그래프 생성 및 이미지 저장
         def generateGraphImage(stock, percentage, maxvalue):
@@ -347,18 +347,15 @@ class indexVisualization:
             return json_result# 최종 데이터 반환
         """
         metrics = indexMetrics(data)
-        return json.dumps(metrics,indent=4) # 최종 데이터 반환
+        return json.dumps(metrics,indent=4)
 
 def show(data_dic,data_df):
-    #종목별 비율 시각화
     index = indexVisualization(data_dic)
     index_bar_dict = index.Visualization()
     
-    #누적 수익률 그래프
     graph = visualization(data_df)
     graph_dict = graph.cumlativeReturns()
     
-    #metrics
     metrics = visualization(data_df)
     metrics_dict = metrics.compareFrame()
     

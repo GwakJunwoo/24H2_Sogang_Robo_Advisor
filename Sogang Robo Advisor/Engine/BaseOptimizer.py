@@ -1,20 +1,36 @@
-from typing import Any, List, Optional, Tuple, Union, Callable, Dict
+from typing import Any, List, Callable, Dict
 import numpy as np
 import cvxpy as cp
 import collections
 
 class BaseOptimizer:
+    """
+    BaseOptimizer is a foundational class for portfolio optimization. It provides 
+    basic functionalities for managing asset weights and generating cleaned outputs.
+
+    Attributes:
+        n_assets (int): Number of assets in the portfolio.
+        tickers (list): List of asset tickers. Defaults to numerical indices if not provided.
+        weights (np.ndarray): Computed portfolio weights.
+
+    Methods:
+        set_weights(input_weights):
+            Sets the portfolio weights manually.
+        clean_weights(cutoff, rounding):
+            Cleans and formats weights by removing near-zero values and applying rounding.
+        _make_output_weights(weights):
+            Generates an ordered dictionary of weights with asset tickers as keys.
+    """
+
     def __init__(self, n_assets, tickers=None):
         self.n_assets = n_assets
         self.tickers = tickers if tickers else list(range(n_assets))
-        self.weights = None  # This will hold the asset weights
+        self.weights = None
 
     def set_weights(self, input_weights: Dict[str, float]) -> None:
-        """Sets the internal weights array from a dictionary."""
         self.weights = np.array([input_weights[ticker] for ticker in self.tickers])
 
     def clean_weights(self, cutoff=1e-4, rounding=None) -> Dict[str, float]:
-        """Removes very small weights and optionally rounds the weights."""
         if self.weights is None:
             raise AttributeError("Weights not yet computed")
 
@@ -39,11 +55,9 @@ class BaseConvexOptimizer(BaseOptimizer):
         self._objective = None
         self._constraints = []
 
-        # Add weight bounds as constraints
         self.add_weight_bounds()
 
     def add_weight_bounds(self):
-        """Adds weight bounds as constraints to the optimization problem."""
         if isinstance(self.weight_bounds, tuple):
             lower_bound, upper_bound = self.weight_bounds
             self._constraints.append(self._w >= lower_bound)
@@ -54,7 +68,6 @@ class BaseConvexOptimizer(BaseOptimizer):
                 self._constraints.append(self._w[i] <= upper_bound)
 
     def add_constraint(self, constraint_function: Any) -> None:
-        """Adds custom constraints."""
         self._constraints.append(constraint_function(self._w))
 
     def _solve_cvxpy_opt_problem(self) -> Dict[str, float]:

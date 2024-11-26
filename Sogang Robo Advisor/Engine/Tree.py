@@ -1,5 +1,45 @@
 from typing import List, Dict, Any
 
+"""
+Tree and Node are foundational classes to represent hierarchical structures of assets 
+or other entities. These classes support creating, manipulating, and visualizing 
+tree structures for portfolio optimization or other hierarchical data processing.
+
+Classes:
+    Node:
+        Represents an individual node in the tree with optional parameters, such as weight bounds.
+
+    Tree:
+        Represents a hierarchical tree structure with a root node and methods for insertion, 
+        traversal, and visualization.
+
+Node Attributes:
+    name (str): The name or identifier of the node.
+    children (List[Node]): A list of child nodes connected to this node.
+    params (dict): A dictionary of parameters associated with the node, 
+                   including weight bounds.
+
+Tree Attributes:
+    root (Node): The root node of the tree.
+    nodes (Dict[str, Node]): A dictionary of all nodes in the tree, indexed by name.
+
+Tree Methods:
+    insert(parent_name, child_name, **params):
+        Inserts a child node under the specified parent node.
+
+    draw():
+        Prints a visual representation of the tree structure.
+
+    get_all_nodes():
+        Returns a list of all nodes in the tree.
+
+    get_all_nodes_name():
+        Returns a list of names of all nodes in the tree, excluding the root node.
+
+    get_leaf_nodes():
+        Returns a list of names of all leaf nodes (nodes without children).
+"""
+
 class Node:
     def __init__(self, name: str, **params: Any):
         self.name = name
@@ -48,6 +88,5 @@ class Tree:
         return [k.name for k in list(self.nodes.values())][1:]
     
     def get_leaf_nodes(self) -> List[str]:
-        """리프 노드(자식이 없는 노드)만 이름으로 반환"""
         leaf_nodes = [node.name for node in self.nodes.values() if not node.children]
         return leaf_nodes

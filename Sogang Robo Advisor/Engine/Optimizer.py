@@ -1,10 +1,42 @@
 
-from typing import List, Optional, Tuple, Union, Callable
+from typing import List, Optional, Tuple, Union
 import numpy as np
 import cvxpy as cp
-import collections
 from Engine.Tree import *
 from Engine.BaseOptimizer import *
+
+"""
+This module provides a collection of portfolio optimization techniques 
+designed to allocate asset weights based on various objectives and constraints.
+
+Functions:
+    portfolio_variance(weights, covariance_matrix):
+        Calculates the portfolio variance given weights and a covariance matrix.
+
+    mean_return(weights, expected_returns):
+        Calculates the weighted mean return of a portfolio.
+
+    is_positive_semidefinite(matrix):
+        Checks if a given matrix is positive semi-definite.
+
+    make_positive_semidefinite(matrix):
+        Adjusts a matrix to make it positive semi-definite by modifying eigenvalues.
+
+    mean_variance_optimizer(nodes, covariance_matrix, expected_returns, weight_bounds, risk_aversion):
+        Optimizes weights to balance risk and return based on the mean-variance framework.
+
+    equal_weight_optimizer(nodes, weight_bounds):
+        Assigns equal weights to all assets in the portfolio.
+
+    dynamic_risk_optimizer(nodes, covariance_matrix, risk_tolerance, goal_period, weight_bounds):
+        Dynamically allocates weights based on risk tolerance and investment horizon.
+
+    risk_parity_optimizer(nodes, covariance_matrix, risk_aversion, weight_bounds):
+        Allocates weights to achieve risk parity among all assets.
+
+    goal_based_optimizer(nodes, covariance_matrix, expected_returns, weight_bounds, risk_aversion, goal_amount, goal_period, simulations):
+        Optimizes portfolio weights to achieve a specific financial goal using Monte Carlo simulations.
+"""
 
 def portfolio_variance(weights, covariance_matrix):
     return cp.quad_form(weights, cp.Constant(covariance_matrix))
@@ -13,18 +45,16 @@ def mean_return(weights, expected_returns):
     return cp.matmul(weights, expected_returns)
 
 def is_positive_semidefinite(matrix: np.ndarray) -> bool:
-    """Check if a matrix is positive semi-definite (PSD) by verifying all eigenvalues are non-negative."""
     return np.all(np.linalg.eigvals(matrix) >= 0)
 
 def make_positive_semidefinite(matrix: np.ndarray) -> np.ndarray:
-    """Make a matrix positive semi-definite by adjusting its eigenvalues if necessary."""
     min_eigenvalue = np.min(np.linalg.eigvals(matrix))
     if min_eigenvalue < 0:
         matrix += np.eye(matrix.shape[0]) * (-min_eigenvalue + 1e-6)
     return matrix
 
 def mean_variance_optimizer(
-    nodes: List[Any],  # Assuming Node has 'name' attribute
+    nodes: List[Any],
     covariance_matrix: np.ndarray,
     expected_returns: np.ndarray,
     weight_bounds: Union[List[Tuple], Tuple] = (0, 1),
@@ -40,7 +70,6 @@ def mean_variance_optimizer(
     if covariance_matrix.shape[0] != n_assets or covariance_matrix.shape[1] != n_assets:
         raise ValueError(f"Covariance matrix dimensions {covariance_matrix.shape} do not match the number of assets ({n_assets}).")
 
-    # 공분산 행렬이 양의 정부호인지 확인하고, 아니라면 수정합니다.
     if not is_positive_semidefinite(covariance_matrix):
         covariance_matrix = make_positive_semidefinite(covariance_matrix)
 
@@ -55,7 +84,7 @@ def mean_variance_optimizer(
     return list(optimizer.clean_weights().values())
 
 def equal_weight_optimizer(
-    nodes: List[Any],  # Assuming Node has 'name' attribute
+    nodes: List[Any],
     weight_bounds: Union[List[Tuple], Tuple] = (0, 1)
 ) -> List[float]:
     n = len(nodes)
@@ -70,26 +99,13 @@ def dynamic_risk_optimizer(
     goal_period: int = 10,
     weight_bounds: Union[List[Tuple], Tuple] = (0, 1)
 ) -> List[float]:
-    """
-    Optimizer based on dynamic risk allocation.
-    Args:
-        nodes: List of assets as nodes.
-        covariance_matrix: Covariance matrix of asset returns.
-        risk_tolerance: Risk tolerance level (1-10).
-        goal_period: Target investment horizon (e.g., years).
-
-    Returns:
-        List of portfolio weights.
-    """
     n_assets = len(nodes)
     if n_assets == 0:
         return []
 
-    # Risk-adjusted volatility
     stability_factor = goal_period / 10
     adjusted_volatility = np.diag(covariance_matrix) ** (risk_tolerance / stability_factor)
 
-    # Inverse volatility weights
     inverse_volatility = 1 / adjusted_volatility
     weights = inverse_volatility / np.sum(inverse_volatility)
 
@@ -101,21 +117,10 @@ def risk_parity_optimizer(
     risk_aversion: float = 0.5,
     weight_bounds: Union[List[Tuple], Tuple] = (0, 1)
 ) -> List[float]:
-    """
-    Optimizer based on risk parity allocation.
-    Args:
-        nodes: List of assets as nodes.
-        covariance_matrix: Covariance matrix of asset returns.
-        risk_aversion: Risk aversion parameter (1: neutral, >1: less risk-tolerant).
-
-    Returns:
-        List of portfolio weights.
-    """
     n_assets = len(nodes)
     if n_assets == 0:
         return []
 
-    # Risk-adjusted volatility
     volatilities = np.sqrt(np.diag(covariance_matrix))
     adjusted_volatility = volatilities ** risk_aversion
     inverse_volatility = 1 / adjusted_volatility
@@ -124,7 +129,7 @@ def risk_parity_optimizer(
     return list(weights)
 
 def goal_based_optimizer(
-    nodes: List[Any],  # Assuming Node has 'name' attribute
+    nodes: List[Any],
     covariance_matrix: np.ndarray,
     expected_returns: np.ndarray,
     weight_bounds: Union[List[Tuple], Tuple] = (0, 1),
@@ -133,35 +138,18 @@ def goal_based_optimizer(
     goal_period: int = 10,
     simulations: int = 1000,
 ) -> List[float]:
-    """
-    Optimizer for Goal-Based Investing (GBI) using BaseConvexOptimizer.
-    Args:
-        nodes: List of assets as nodes.
-        covariance_matrix: Covariance matrix of asset returns.
-        expected_returns: Expected returns of assets.
-        weight_bounds: Bounds for weights (default: (0, 1)).
-        risk_aversion: Risk aversion parameter.
-        goal_amount: Target investment amount.
-        goal_period: Investment horizon (in years).
-        simulations: Number of Monte Carlo simulations.
-
-    Returns:
-        List of portfolio weights.
-    """
     n_assets = len(nodes)
     tickers = [node.name for node in nodes]
 
     if covariance_matrix.shape[0] != n_assets or covariance_matrix.shape[1] != n_assets:
         raise ValueError(f"Covariance matrix dimensions {covariance_matrix.shape} do not match the number of assets ({n_assets}).")
 
-    # Check if covariance matrix is positive semi-definite
     if not is_positive_semidefinite(covariance_matrix):
         covariance_matrix = make_positive_semidefinite(covariance_matrix)
 
     if n_assets == 1:
         return [1.0]
 
-    # Monte Carlo simulation to calculate success probability
     np.random.seed(42)
     ending_values = []
     for _ in range(simulations):
@@ -175,16 +163,13 @@ def goal_based_optimizer(
     failure_prob = np.mean(np.array(ending_values) < goal_amount)
     success_prob = 1 - failure_prob
 
-    # Adjust risk aversion based on success probability
     adjusted_risk_aversion = risk_aversion * (1 + success_prob)
 
-    # Define GBI objective
     def gbi_objective(w, cov_matrix, exp_returns, adjusted_risk_aversion):
         portfolio_var = portfolio_variance(w, cov_matrix)
         portfolio_ret = mean_return(w, exp_returns)
         return adjusted_risk_aversion * portfolio_var - portfolio_ret
 
-    # Use BaseConvexOptimizer for optimization
     optimizer = BaseConvexOptimizer(n_assets, tickers=tickers, weight_bounds=weight_bounds)
     optimizer.convex_objective(
         lambda w: gbi_objective(w, covariance_matrix, expected_returns, adjusted_risk_aversion),
