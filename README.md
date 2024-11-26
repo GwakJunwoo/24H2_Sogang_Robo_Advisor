@@ -1,4 +1,4 @@
-![Sogang Robo Logo](sogang-robo-logo-professional.svg)
+![Sogang Robo Logo](Sogang Robo Advisor/Logo/sogang-robo-logo-professional.svg)
 
 **Roborich** is a Python-based portfolio optimization and backtesting engine designed to support hierarchical asset allocation strategies and various optimization techniques. The tool provides flexibility in integrating multiple optimizers, calculating key performance metrics, and visualizing portfolio evaluations.
 
