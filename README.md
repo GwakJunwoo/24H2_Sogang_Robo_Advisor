@@ -21,6 +21,10 @@ This integrated approach simplifies portfolio management tasks, providing both f
   - Multiple optimization techniques can be applied at different levels of the tree.
   - Supports integration of custom optimizers for specific strategies.
 
+For more detailed information, refer to the following resource:
+- [KB Securities Research Report](https://rdata.kbsec.com/pdf_data/20220103100504197K.pdf)
+
+
 ### 2. **Assumption Modeling**
 The `AssetAssumption` class calculates:
 - **Expected Returns**:
