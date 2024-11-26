@@ -71,7 +71,7 @@ The `Backtest` class simulates portfolio performance over a specified time frame
   - **CVaR (Conditional VaR)**: Expected loss beyond the VaR threshold.
 
 
-## Investment Types (risk_level)
+## Investment Types (Risk Level)
 
 | Type               | Code |
 |--------------------|------|
