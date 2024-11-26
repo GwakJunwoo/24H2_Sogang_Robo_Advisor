@@ -10,7 +10,6 @@ By combining modules for **assumption modeling**, **optimization**, and **backte
 
 This integrated approach simplifies portfolio management tasks, providing both flexibility and robust analytics in a single framework.
 
----
 
 ## Features
 
