@@ -68,14 +68,6 @@ The `Backtest` class simulates portfolio performance over a specified time frame
   - **VaR (Value at Risk)**: Expected loss under adverse market conditions.
   - **CVaR (Conditional VaR)**: Expected loss beyond the VaR threshold.
 
----
-
-## Optimizer Workflow (Pipeline)
-
-The optimization process in **Roborich** follows a hierarchical and modular design:
-1. **Input Tree**: Define a `Tree` structure to represent assets and their parent-child relationships.
-2. **Optimization Steps**: Use the `Pipeline` class to define sequential optimizations at different levels of the tree.
-3. **Execution**: Run the `Pipeline` on price data to generate optimized allocations.
 
 ## Investment Types(risk_level)
 
