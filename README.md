@@ -70,15 +70,15 @@ The `Backtest` class simulates portfolio performance over a specified time frame
   - **VaR (Value at Risk)**: Expected loss under adverse market conditions.
   - **CVaR (Conditional VaR)**: Expected loss beyond the VaR threshold.
 
-## Investment Types (Risk Level)
+## Investment Types and Goals
 
-Conservative (1) | Risk-Averse (2) | Risk-Neutral (3) | Aggressive (4) | Highly Aggressive (5)
-
-## Investment Goals
-
-Marriage Fund Planning (1) | Retirement Fund Planning (2) | Long-Term Wealth Growth (3) | Saving for a Large Goal (4)
-
-
+| **Risk Level**             | **Code** | **Investment Goal**           | **Code** |
+|----------------------------|----------|--------------------------------|----------|
+| Conservative               | 1        | Marriage Fund Planning         | 1        |
+| Risk-Averse                | 2        | Retirement Fund Planning       | 2        |
+| Risk-Neutral               | 3        | Long-Term Wealth Growth        | 3        |
+| Aggressive                 | 4        | Saving for a Large Goal        | 4        |
+| Highly Aggressive          | 5        |                                |          |
 
 ## Goal-Specific Strategies
 
