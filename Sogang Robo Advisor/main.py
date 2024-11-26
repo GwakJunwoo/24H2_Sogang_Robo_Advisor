@@ -143,9 +143,9 @@ def main(codes, risk_level: int = 4, investor_goal:int = 1):
 
     allocation = backtest.allocations[-1][-1]
     allocation = {name: allocation[code] for name, code in stock_dict.items() if code in allocation}
+    print(allocation)
 
     eval_metrix = backtest.evaluation(allocation)
-    print(eval_metrix)
     return eval_metrix
 
 
