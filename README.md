@@ -103,11 +103,10 @@ The `Backtest` class simulates portfolio performance over a specified time frame
    ```bash
    main(codes=['069500','139260','161510','273130','439870','251340','114260'], risk_level=5, investor_goal=4)
 
-
 ## Project Origin
 
 This project was developed as part of the **Big Data Capstone Design (BDS4010)** course at Sogang University.  
-For more details and updates on the project, please refer to the related [Wiki](http://cscp2.sogang.ac.kr/BDS4010/index.php/3%ED%8C%80:_%EB%A1%9C%EB%B3%B4%EB%A6%AC%EC%B9%98).
+For more details and updates on the project, please refer to the related [Sogang Wiki](http://cscp2.sogang.ac.kr/BDS4010/index.php/3%ED%8C%80:_%EB%A1%9C%EB%B3%B4%EB%A6%AC%EC%B9%98).
 
 
 ## License
