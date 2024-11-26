@@ -1,10 +1,10 @@
-from Tree import *
-from BaseOptimizer import *
-from Optimizer import *
-from Assumption import *
-from Pipeline import *
-from Backtest import *
-from DataReader import *
+from Engine.Tree import *
+from Engine.BaseOptimizer import *
+from Engine.Optimizer import *
+from Engine.Assumption import *
+from Engine.Pipeline import *
+from Engine.Backtest import *
+from Engine.DataReader import *
 from datetime import datetime, timedelta
 import warnings 
 
@@ -143,9 +143,10 @@ def main(codes, risk_level: int = 4, investor_goal:int = 1):
 
     allocation = backtest.allocations[-1][-1]
     allocation = {name: allocation[code] for name, code in stock_dict.items() if code in allocation}
-    print(allocation)
+    #print(allocation)
 
     eval_metrix = backtest.evaluation(allocation)
+    #print(eval_metrix)
     return eval_metrix
 
 

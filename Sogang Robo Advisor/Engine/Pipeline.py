@@ -1,9 +1,9 @@
 
 from typing import List, Optional, Tuple, Union, Callable
-from Tree import *
-from BaseOptimizer import *
-from Optimizer import *
-from Assumption import *
+from Engine.Tree import *
+from Engine.BaseOptimizer import *
+from Engine.Optimizer import *
+from Engine.Assumption import *
 
 optimizer_inputs = {
     'mean_variance_optimizer': ['expected_returns', 'covariance_matrix'],
