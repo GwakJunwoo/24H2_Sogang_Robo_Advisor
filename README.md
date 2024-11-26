@@ -72,24 +72,24 @@ The `Backtest` class simulates portfolio performance over a specified time frame
   - **CVaR (Conditional VaR)**: Expected loss beyond the VaR threshold.
 
 
-## Investment Types(risk_level)
+## Investment Types (risk_level)
 
 | Type               | Code |
 |--------------------|------|
-| 안정형              | 1    |
-| 안정추구형          | 2    |
-| 위험중립형          | 3    |
-| 적극투자형          | 4    |
-| 공격투자형          | 5    |
+| Conservative              | 1    |
+| Risk-Averse          | 2    |
+| Risk-Neutral          | 3    |
+| Aggressive          | 4    |
+| Highly Aggressive          | 5    |
 
 ## Investment Goal
 
 | Type               | Code |
 |--------------------|------|
-| 결혼자금 준비          | 1    |
-| 노후자금 준비          | 2    |
-| 장기수익 창출          | 3    |
-| 목돈 마련              | 4    |
+| Marriage Fund Planning          | 1    |
+| Retirement Fund Planning          | 2    |
+| Long-Term Wealth Growth          | 3    |
+| Saving for a Large Goal              | 4    |
 
 ## Installation and Setup
 
