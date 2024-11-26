@@ -1,6 +1,6 @@
 ![Sogang Robo Logo](Sogang%20Robo%20Advisor/Logo/sogang-robo-logo-professional.svg)
 
-**Roborich** is a Python-based portfolio optimization and backtesting engine designed to support hierarchical asset allocation strategies and various optimization techniques. The tool provides flexibility in integrating multiple optimizers, calculating key performance metrics, and visualizing portfolio evaluations.
+**SGRA(Sogang Robo Advisor)** is a Python-based portfolio optimization and backtesting engine designed to support hierarchical asset allocation strategies and various optimization techniques. The tool provides flexibility in integrating multiple optimizers, calculating key performance metrics, and visualizing portfolio evaluations.
 
 By combining modules for **assumption modeling**, **optimization**, and **backtesting**, Roborich enables seamless end-to-end workflows for portfolio construction and evaluation:
 - Use the `AssetAssumption` module to calculate expected returns and covariance matrices from historical price data.
@@ -20,7 +20,6 @@ This integrated approach simplifies portfolio management tasks, providing both f
 - **Modular Optimizers**:
   - Multiple optimization techniques can be applied at different levels of the tree.
   - Supports integration of custom optimizers for specific strategies.
-
 - For more detailed information, refer to the following resource:
   - [KB Securities Research Report](https://rdata.kbsec.com/pdf_data/20220103100504197K.pdf)
 
