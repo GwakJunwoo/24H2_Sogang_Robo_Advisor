@@ -81,7 +81,7 @@ def build_investment_tree(codes: list, risk_level: int, df: pd.DataFrame) -> Tre
 
 def main(codes, risk_level: int = 4, investor_goal:int = 1):
 
-    file_path = 'invest_universe.csv'
+    file_path = 'Sogang Robo Advisor/invest_universe.csv'
     universe = pd.read_csv(file_path, encoding='cp949')
 
     stock_dict = {}
@@ -99,35 +99,35 @@ def main(codes, risk_level: int = 4, investor_goal:int = 1):
 
     assumption = AssetAssumption(returns_window=52, covariance_window=52)
 
-    ## 투자자 목표 1: 목돈 마련
+    ## 투자자 목표 1: 결혼자금 준비
     if investor_goal == 1:
         steps = [
             ("SAA", dynamic_risk_optimizer), 
-            ("TAA", goal_based_optimizer),
-            ("AP", mean_variance_optimizer)
-        ]
-
-    ## 투자자 목표 2: 결혼자금 준비
-    elif investor_goal == 2:
-        steps = [
-            ("SAA", dynamic_risk_optimizer), 
             ("TAA", mean_variance_optimizer),
             ("AP", mean_variance_optimizer)
         ]
 
-    ## 투자자 목표 3: 노후자금 준비
+    ## 투자자 목표 2: 노후자금 준비
+    elif investor_goal == 2:
+        steps = [
+            ("SAA", risk_parity_optimizer), 
+            ("TAA", goal_based_optimizer),
+            ("AP", mean_variance_optimizer)
+        ]
+
+    ## 투자자 목표 3 장기 수익 창출
     elif investor_goal == 3:
         steps = [
             ("SAA", risk_parity_optimizer), 
-            ("TAA", goal_based_optimizer),
+            ("TAA", mean_variance_optimizer),
             ("AP", mean_variance_optimizer)
         ]
 
-    ## 투자자 목표 4: 장기 수익 창출
-    else:
+    ## 투자자 목표 4 목돈 마련
+    elif investor_goal == 4:
         steps = [
-            ("SAA", risk_parity_optimizer), 
-            ("TAA", mean_variance_optimizer),
+            ("SAA", dynamic_risk_optimizer), 
+            ("TAA", goal_based_optimizer),
             ("AP", mean_variance_optimizer)
         ]
 
@@ -142,6 +142,8 @@ def main(codes, risk_level: int = 4, investor_goal:int = 1):
     backtest.run_backtest()
 
     allocation = backtest.allocations[-1][-1]
+    allocation = {name: allocation[code] for name, code in stock_dict.items() if code in allocation}
+
     eval_metrix = backtest.evaluation(allocation)
     print(eval_metrix)
     return eval_metrix
@@ -153,4 +155,4 @@ codes: 투자할 종목 리스트
 risk_level: 투자자의 위험등급 (1~5, 5: 고위험 투자자)
 investor_goal: 투자자 목표(1: 목돈마련, 2: 결혼자금 준비, 3: 노후자금 준비, 4: 장기수익 창출)
 """
-# main(codes=['069500','139260','161510','273130','439870','251340','114260'], risk_level=5, investor_goal=4)
+main(codes=['069500','139260','161510','273130','439870','251340','114260'], risk_level=5, investor_goal=4)

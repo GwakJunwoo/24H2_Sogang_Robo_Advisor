@@ -20,7 +20,7 @@ def fetch_close_prices():
     file_path = 'invest_universe.csv'
 
     # SQLite3 데이터베이스 경로
-    db_path = 'financial_data.db'
+    db_path = 'Sogang Robo Advisor/financial_data.db'
 
     # 데이터 로드
     tickers_data = pd.read_csv(file_path, encoding='cp949')  # 한글 인코딩 처리
@@ -50,7 +50,7 @@ def fetch_close_prices():
     
     return all_close_prices
 
-def fetch_data_from_db(tickers, db_path='financial_data.db'):
+def fetch_data_from_db(tickers, db_path='Sogang Robo Advisor/financial_data.db'):
     """
     SQLite3 데이터베이스에서 종목 리스트에 해당하는 시계열 데이터를 조회하여 DataFrame으로 반환
     :param tickers: 조회할 종목 리스트
