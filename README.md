@@ -90,7 +90,22 @@ The `Backtest` class simulates portfolio performance over a specified time frame
 | Long-Term Wealth Growth          | 3    |
 | Saving for a Large Goal              | 4    |
 
-## Installation and Setup
+## Goal-Specific Strategies
+
+| Investment Goal              | Code | Characteristics                                              | Methodology               | Selection Rationale                                                |
+|-------------------------------|------|-------------------------------------------------------------|---------------------------|----------------------------------------------------------------------|
+| **Marriage Fund Planning**    | 1    | Balances stability and returns for medium-term asset accumulation. | DRA → MVO → MVO           | Employs stable yet profitable allocation strategies for mid-term wealth accumulation. |
+| **Retirement Fund Planning**  | 2    | Aims for long-term stability with pension-like returns.         | RPO → GBI → MVO           | Ensures stable risk management and sustainable returns for retirement planning. |
+| **Long-Term Wealth Growth**   | 3    | Targets high returns over the long term while managing volatility. | RPO → MVO → MVO           | Maximizes risk-adjusted returns to achieve long-term asset growth.  |
+| **Saving for a Large Goal**   | 4    | Seeks stable returns and risk management over the short to medium term. | DRA → GBI → MVO           | Focuses on short- to medium-term growth and stable asset management strategies to achieve target returns. |
+
+### Abbreviations
+- **RPO**: Risk Parity Optimization  
+- **MVO**: Mean-Variance Optimization  
+- **DRA**: Dynamic Risk Allocation  
+- **GBI**: Goal-Based Investing
+
+## Installation and Usage
 
 1. **Install Dependencies**:
    Run the following to install required libraries:
