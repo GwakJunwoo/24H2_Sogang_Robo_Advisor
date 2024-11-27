@@ -2,7 +2,7 @@
 
 **SGRA(Sogang Robo Advisor)** is a Python-based portfolio optimization and backtesting engine designed to support hierarchical asset allocation strategies and various optimization techniques. The tool provides flexibility in integrating multiple optimizers, calculating key performance metrics, and visualizing portfolio evaluations.
 
-By combining modules for **assumption modeling**, **optimization**, and **backtesting**, Roborich enables seamless end-to-end workflows for portfolio construction and evaluation:
+By combining modules for **assumption modeling**, **optimization**, and **backtesting**, SGRA enables seamless end-to-end workflows for portfolio construction and evaluation:
 - Use the `AssetAssumption` module to calculate expected returns and covariance matrices from historical price data.
 - Define a hierarchical asset tree with the `Tree` class and apply modular optimizers to different levels of the hierarchy.
 - Execute dynamic rebalancing and evaluate portfolio performance over time with the `Backtest` engine.
