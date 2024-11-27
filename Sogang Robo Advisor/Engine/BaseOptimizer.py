@@ -45,6 +45,37 @@ class BaseOptimizer:
 
 
 class BaseConvexOptimizer(BaseOptimizer):
+    """
+    BaseConvexOptimizer is a convex optimization class designed for portfolio optimization problems.
+    It extends the BaseOptimizer class by providing functionalities to define custom convex 
+    optimization objectives and constraints.
+
+    Attributes:
+        n_assets (int): Number of assets in the portfolio.
+        tickers (list): List of asset tickers. Defaults to numerical indices if not provided.
+        weight_bounds (tuple or list): Weight bounds for the assets, either as a single tuple (global) 
+                                       or a list of tuples (per asset).
+        _solver (str): Solver to use for solving the optimization problem (e.g., 'ECOS', 'SCS').
+        _verbose (bool): Whether to display solver output.
+        _w (cp.Variable): CVXPY variable representing asset weights.
+        _objective (cp.Expression): The optimization objective function.
+        _constraints (list): List of constraints for the optimization problem.
+
+    Methods:
+        add_weight_bounds():
+            Adds constraints for asset weight bounds based on the provided `weight_bounds` parameter.
+
+        add_constraint(constraint_function):
+            Adds a custom constraint to the optimization problem.
+
+        convex_objective(custom_objective, weights_sum_to_one=True, **kwargs):
+            Sets the optimization objective and solves the convex problem. Optionally enforces 
+            the weights to sum to one.
+
+        _solve_cvxpy_opt_problem():
+            Solves the defined convex optimization problem using CVXPY and returns the portfolio weights.
+    """
+
     def __init__(self, n_assets, tickers=None, weight_bounds=(0, 1), solver=None, verbose=False):
         super().__init__(n_assets, tickers)
         self.weight_bounds = weight_bounds
