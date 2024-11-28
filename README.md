@@ -13,8 +13,6 @@ This integrated approach simplifies portfolio management tasks, providing both f
 
 ## Features
 
-## Features
-
 ### 1. **SAA-TAA Hierarchical Asset Allocation**
 - **Strategic Asset Allocation (SAA)**:
   - Long-term allocation focusing on maintaining the overall portfolio's target risk and return characteristics.
