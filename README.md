@@ -13,16 +13,27 @@ This integrated approach simplifies portfolio management tasks, providing both f
 
 ## Features
 
-### 1. **Building Block Approach**
-- **Tree-Based Hierarchical Optimization**:
-  - Assets are structured hierarchically using parent-child relationships.
-  - Each level of the hierarchy can apply a different optimization method.
-- **Modular Optimizers**:
-  - Multiple optimization techniques can be applied at different levels of the tree.
-  - Supports integration of custom optimizers for specific strategies.
-- For more detailed information, refer to the following resource:
-  - [KB Securities Research Report](https://rdata.kbsec.com/pdf_data/20220103100504197K.pdf)
+## Features
 
+### 1. **SAA-TAA Hierarchical Asset Allocation**
+- **Strategic Asset Allocation (SAA)**:
+  - Long-term allocation focusing on maintaining the overall portfolio's target risk and return characteristics.
+  - Optimizes high-level asset classes (e.g., equities, bonds, alternatives) to reflect strategic objectives.
+- **Tactical Asset Allocation (TAA)**:
+  - Shorter-term allocation to take advantage of market inefficiencies or opportunities.
+  - Dynamically adjusts weights within sub-asset classes while adhering to the constraints set by SAA.
+
+- **Building Block Approach**:
+  - **Tree-Based Hierarchical Optimization**:
+    - Assets are structured hierarchically using parent-child relationships.
+    - Each level of the hierarchy can apply a different optimization method.
+  - **Modular Optimizers**:
+    - Multiple optimization techniques can be applied at different levels of the tree.
+    - Supports integration of custom optimizers for specific strategies.
+  - For more detailed information, refer to the following resource:
+    - [KB Securities Research Report](https://rdata.kbsec.com/pdf_data/20220103100504197K.pdf)
+
+---
 
 ### 2. **Assumption Modeling**
 The `AssetAssumption` class calculates:
@@ -32,6 +43,8 @@ The `AssetAssumption` class calculates:
 - **Covariance Matrix**:
   - Asset return covariances calculated from historical data.
   - Supports rolling window calculations to focus on recent data trends.
+
+---
 
 ### 3. **Supported Optimizers**
 1. **Mean-Variance Optimizer**:
@@ -46,6 +59,8 @@ The `AssetAssumption` class calculates:
 5. **Goal-Based Optimizer**:
    - Focuses on achieving specific investment goals using Monte Carlo simulations.
 
+---
+
 ### 4. **Backtesting**
 The `Backtest` class simulates portfolio performance over a specified time frame. It integrates with the `Pipeline` class to dynamically rebalance portfolios and evaluate performance metrics.
 
@@ -53,6 +68,8 @@ The `Backtest` class simulates portfolio performance over a specified time frame
   - Rebalances the portfolio at specified dates based on optimization outputs from the `Pipeline`.
   - Handles missing or incomplete data by forward-filling values to ensure continuity in calculations.
   - Tracks portfolio value changes over time, allowing for detailed performance evaluation.
+
+---
 
 ### 5. **Performance Metrics Evaluation**
 - Calculates comprehensive investment metrics, including:
@@ -69,6 +86,7 @@ The `Backtest` class simulates portfolio performance over a specified time frame
   - **Kelly Criterion**: Optimal betting fraction for reinvestment.
   - **VaR (Value at Risk)**: Expected loss under adverse market conditions.
   - **CVaR (Conditional VaR)**: Expected loss beyond the VaR threshold.
+
 
 ## Investment Types and Goals
 
