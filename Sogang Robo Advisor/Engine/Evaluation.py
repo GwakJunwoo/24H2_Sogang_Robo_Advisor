@@ -34,8 +34,10 @@ class visualization:
     
     def cumlativeReturns(self,json_filename="cumulative_returns.json"):
         df = self._data 
-        df["Model"] = (1 + df["Model"]).cumprod() - 1
-        df["Benchmark"] = (1 + df["Benchmark"]).cumprod() - 1
+
+        #df["Model"] = (1 + df["Model"]).cumprod() - 1
+        #df["Benchmark"] = (1 + df["Benchmark"]).cumprod() - 1
+        
         df = df.dropna()
         dates = pd.to_datetime(df.index)
         strategy_returns = [x * 100 for x in df['Model']]

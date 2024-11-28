@@ -144,9 +144,10 @@ def main(codes, risk_level: int = 4, investor_goal:int = 1):
 
     allocation = backtest.allocations[-1][-1]
     allocation = {name: allocation[code] for name, code in stock_dict.items() if code in allocation}
+    # df = pd.DataFrame([{'Date': date, **allocations} for date, allocations in backtest.allocations])
+    # df.to_csv('check4.csv')
 
     eval_metrix = backtest.evaluation(allocation)
-    # print(eval_metrix)
     return eval_metrix
 
 
@@ -154,6 +155,6 @@ def main(codes, risk_level: int = 4, investor_goal:int = 1):
 """
 codes: 투자할 종목 리스트
 risk_level: 투자자의 위험등급 (1~5, 5: 고위험 투자자)
-investor_goal: 투자자 목표(1: 목돈마련, 2: 결혼자금 준비, 3: 노후자금 준비, 4: 장기수익 창출)
+investor_goal: 투자자 목표(1: 결혼자금 준비, 2: 노후자금 준비, 3: 장기수익 창출, 4: 목돈마련)
 """
-# main(codes=['139260','161510','273130','439870','251340','114260'], risk_level=5, investor_goal=4)
+# main(codes=['069500', '139260','161510','273130','439870','251340','114260'], risk_level=4, investor_goal=3)

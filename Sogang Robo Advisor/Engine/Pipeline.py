@@ -40,10 +40,13 @@ class Pipeline:
         self.steps = steps
         self.universe = universe
         self.assumption = assumption
+        self.saa_memory = None
 
     def run(self, price_data: pd.DataFrame) -> Dict[str, float]:
         expected_returns = self.assumption.calculate_expected_return(price_data)
         covariance_matrix = self.assumption.calculate_covariance(price_data)
+
+        month = price_data.index[-1].month
 
         valid_assets = expected_returns[expected_returns > -99999].index
         filtered_expected_returns = expected_returns.loc[valid_assets]
@@ -51,7 +54,7 @@ class Pipeline:
 
         allocations = {}
         root_node = self.universe.root
-        self._optimize_node(root_node, 1, allocations, filtered_expected_returns, filtered_covariance_matrix)
+        self._optimize_node(root_node, 1, allocations, filtered_expected_returns, filtered_covariance_matrix, saa_rebalance_month=month)
         return allocations
 
     def _optimize_node(
@@ -61,10 +64,11 @@ class Pipeline:
         allocations: Dict[str, float],
         expected_returns: pd.Series,
         covariance_matrix: pd.DataFrame,
-        parent_weight: float = 1.0
+        parent_weight: float = 1.0,
+        saa_rebalance_month = 12,
     ) -> None:
         if depth <= len(self.steps):
-            optimizer_name, optimizer_func = self.steps[depth - 1]
+            optimizer_name, optimizer_func = self.steps[depth - 1]             
 
             required_inputs = optimizer_inputs.get(optimizer_func.__name__, [])
             input_args = {}
@@ -93,10 +97,38 @@ class Pipeline:
                     valid_children,
                     expected_returns=input_args['expected_returns'],
                     covariance_matrix=input_args['covariance_matrix'],
-                    weight_bounds=input_args.get('weight_bounds', None)
+                    weight_bounds=input_args.get('weight_bounds', None),
                 )
+
+            elif optimizer_func == goal_based_optimizer:
+                node_weights = optimizer_func(
+                    valid_children,
+                    expected_returns=input_args['expected_returns'],
+                    covariance_matrix=input_args['covariance_matrix'],
+                    weight_bounds=input_args.get('weight_bounds', None),
+                )
+
+            elif optimizer_func == dynamic_risk_optimizer:
+                node_weights = optimizer_func(
+                    valid_children,
+                    covariance_matrix=input_args['covariance_matrix'],
+                    weight_bounds=input_args.get('weight_bounds', None),
+                )
+
+            elif optimizer_func == risk_parity_optimizer:
+                node_weights = optimizer_func(
+                    valid_children,
+                    covariance_matrix=input_args['covariance_matrix'],
+                    weight_bounds=input_args.get('weight_bounds', None),
+                )
+
             else:
-                node_weights = optimizer_func(valid_children, **input_args)
+                node_weights = optimizer_func(valid_children, 
+                                              **input_args,
+                                              )
+
+            if optimizer_name == 'SAA':
+                node_weights = self._handle_saa(node_weights, saa_rebalance_month)
 
             for child_node, weight in zip(valid_children, node_weights):
                 allocations[child_node.name] = weight * parent_weight
@@ -116,3 +148,13 @@ class Pipeline:
 
     def _get_nodes_bounds(self, nodes: List[Node]) -> List[Tuple]:
         return [node.params['weight_bounds'] for node in nodes]
+
+    def _handle_saa(self, node_weights, saa_rebalance_month):
+        if self.saa_memory is not None:
+            if saa_rebalance_month != 1:
+                return self.saa_memory
+            elif saa_rebalance_month == 1:
+                self.saa_memory = None
+        elif self.saa_memory is None:
+            self.saa_memory = node_weights
+        return node_weights
