@@ -31,8 +31,6 @@ This integrated approach simplifies portfolio management tasks, providing both f
   - For more detailed information, refer to the following resource:
     - [KB Securities Research Report](https://rdata.kbsec.com/pdf_data/20220103100504197K.pdf)
 
----
-
 ### 2. **Assumption Modeling**
 The `AssetAssumption` class calculates:
 - **Expected Returns**:
@@ -41,8 +39,6 @@ The `AssetAssumption` class calculates:
 - **Covariance Matrix**:
   - Asset return covariances calculated from historical data.
   - Supports rolling window calculations to focus on recent data trends.
-
----
 
 ### 3. **Supported Optimizers**
 1. **Mean-Variance Optimizer**:
@@ -57,8 +53,6 @@ The `AssetAssumption` class calculates:
 5. **Goal-Based Optimizer**:
    - Focuses on achieving specific investment goals using Monte Carlo simulations.
 
----
-
 ### 4. **Backtesting**
 The `Backtest` class simulates portfolio performance over a specified time frame. It integrates with the `Pipeline` class to dynamically rebalance portfolios and evaluate performance metrics.
 
@@ -66,8 +60,6 @@ The `Backtest` class simulates portfolio performance over a specified time frame
   - Rebalances the portfolio at specified dates based on optimization outputs from the `Pipeline`.
   - Handles missing or incomplete data by forward-filling values to ensure continuity in calculations.
   - Tracks portfolio value changes over time, allowing for detailed performance evaluation.
-
----
 
 ### 5. **Performance Metrics Evaluation**
 - Calculates comprehensive investment metrics, including:
