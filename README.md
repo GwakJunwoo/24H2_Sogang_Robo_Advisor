@@ -61,7 +61,7 @@ The `Backtest` class simulates portfolio performance over a specified time frame
   - Handles missing or incomplete data by forward-filling values to ensure continuity in calculations.
   - Tracks portfolio value changes over time, allowing for detailed performance evaluation.
 
-### 5. **Performance Metrics Evaluation**
+### 5. **Performance Evaluation**
 - Calculates comprehensive investment metrics, including:
   - **Cumulative Return**: Total return over the evaluation period.
   - **CAGR** (Compound Annual Growth Rate): Annualized portfolio growth rate.
