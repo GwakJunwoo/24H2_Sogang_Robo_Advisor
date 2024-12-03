@@ -1,0 +1,12 @@
+### Healthcheck
+GET 127.0.0.1:8000/healthcheck
+
+### Execute Robo-Advisor
+POST 127.0.0.1:8000/advisor
+Content-Type: application/json
+
+{
+    "codes": ["069500", "139260"],
+    "risk_level": 4,
+    "investor_goal": 1
+}
