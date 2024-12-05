@@ -45,7 +45,7 @@ def build_investment_tree(codes: list, risk_level: int, df: pd.DataFrame) -> Tre
 
     code_info = {}
     for code in codes:
-        row = df[df['종목 코드'].astype(str) == str(code)].iloc[0]
+        row = df[df['종목 코드'].astype(int) == int(code)].iloc[0]
         code_info[code] = {
             'level': row['level'] if not pd.isna(row['level']) else 0,
             'parent': row['부모'] if not pd.isna(row['부모']) else None,
